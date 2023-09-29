@@ -1,8 +1,28 @@
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let todo of todos$ | async">
-    <input title="done-checkbox" type="checkbox" [checked]="todo.done" (change)="markAsDone(todo)">
-    {{ todo.title }}
-    <button (click)="removeTodo(todo)">Remove</button>
-  </li>
-</ul>
-
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1">Todo Manager</span>
+    <app-add-todo></app-add-todo>
+  </div>
+</nav>
+<br>
+<div class="container">
+  <div class="list-group">
+    <ng-container *ngFor="let todo of todos$ | async">
+      <label class="list-group-item">
+        <div class="row">
+          <div class="col-md-8">
+            <input class="form-check-input me-1" title="done-checkbox" type="checkbox" [checked]="todo.done"
+              (change)="markAsDone(todo)">
+            {{ todo.title }}
+          </div>
+          <div class="col-md-4">
+            <div class="d-grid gap-2 d-md-block">
+              <app-edit-todo></app-edit-todo>
+              <button (click)="removeTodo(todo)" class="btn btn-danger" type="button">Remove</button>
+            </div>
+          </div>
+        </div>
+      </label>
+    </ng-container>
+  </div>
+</div>

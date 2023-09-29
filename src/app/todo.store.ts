@@ -3,6 +3,8 @@ import { ComponentStore } from "@ngrx/component-store";
 export interface Todo {
   id: number;
   title: string;
+  description?: string;
+  dueDate?: Date;
   done: boolean;
 }
 
