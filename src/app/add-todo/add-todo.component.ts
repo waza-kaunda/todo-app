@@ -11,7 +11,8 @@ import { Todo, TodoStore } from "../todo.store";
   styleUrls: ["./add-todo.component.css"],
 })
 export class AddTodoComponent {
-  @ViewChild("close") closeBtn;
+  @ViewChild("close")
+  closeBtn!: { nativeElement: { click: () => void; }; };
 
   fb = inject(FormBuilder);
   todoStore = inject(TodoStore);

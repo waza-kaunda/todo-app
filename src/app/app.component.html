@@ -6,23 +6,59 @@
 </nav>
 <br>
 <div class="container">
+  <h4>Today's Date: {{ today | date: 'dd/MM/yyyy' }}</h4>
+  <div class="row">
+    <div class="col-md-6">
+      <h4>To Do List</h4>
+      <ng-container *ngTemplateOutlet="todoList; context: { todos$: todoStore.selectNotDoneTodos}"></ng-container>
+    </div>
+    <div class="col-md-6">
+      <h4>Completed items</h4>
+      <ng-container *ngTemplateOutlet="todoList; context: { todos$: todoStore.selectDoneTodos}"></ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- List display template Ref -->
+<ng-template #todoList let-todos$="todos$">
   <div class="list-group">
     <ng-container *ngFor="let todo of todos$ | async">
       <label class="list-group-item">
         <div class="row">
-          <div class="col-md-8">
-            <input class="form-check-input me-1" title="done-checkbox" type="checkbox" [checked]="todo.done"
-              (change)="markAsDone(todo)">
-            {{ todo.title }}
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col">
+                <input class="form-check-input me-1" title="done-checkbox" type="checkbox" [checked]="todo.done"
+                (change)="markAsDone(todo)">
+              <span>
+                {{ todo.title }}
+              </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col offset-1">
+                <sub> {{ todo.description ?? "No Description" }} </sub>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col offset-1">
+                <sub
+                [ngClass]="{ 'text-danger': todo.dueDate < today, 'text-success': todo.dueDate > today, 'text-warning': todo.dueDate == today }">
+                Due: {{ todo.dueDate | date: 'dd/MM/yyyy' }}
+              </sub>
+              </div>
+            </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="d-grid gap-2 d-md-block">
-              <app-edit-todo></app-edit-todo>
-              <button (click)="removeTodo(todo)" class="btn btn-danger" type="button">Remove</button>
+              <button *ngIf="!todo.done" type="button" class="btn btn-primary" (click)="editTodo(todo)">
+                Edit
+              </button>
+              <button (click)="removeTodo(todo)" class="btn btn-danger" type="button">Delete</button>
             </div>
           </div>
         </div>
       </label>
     </ng-container>
   </div>
-</div>
+</ng-template>

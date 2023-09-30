@@ -1,30 +1,29 @@
 import { Component, inject } from '@angular/core';
 import { Todo, TodoStore } from './todo.store';
 import { Observable, tap } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditTodoComponent } from './edit-todo/edit-todo.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [TodoStore]
 })
 export class AppComponent {
 
   title = 'todo-app';
 
-  todos$: Observable<Todo[]>;
+  todoStore = inject(TodoStore);
+  modalService = inject(NgbModal);
 
   todo: Todo = {id: 0, title: '', done: false };
-
-  constructor(private todoStore: TodoStore){
-    this.todos$ = todoStore.selectTodos.pipe(tap(todos => this.todo.id = todos.length));
-  }
+  today = new Date();
 
   ngOnInit() {
   }
 
   markAsDone(todo: Todo) {
-    todo.done = true;
+    todo.done = !todo.done;
     this.todoStore.updateTodo(todo);
   }
 
@@ -32,8 +31,17 @@ export class AppComponent {
     this.todoStore.removeTodo(todo.id);
   }
 
-  addTodo() {
-    this.todoStore.addTodo(this.todo);
-    this.todo = {id: this.todo.id + 1, title: '', done: false };
+  updateTodo(todo: Todo) {
+    this.todoStore.updateTodo(this.todo);
+  }
+
+  editTodo(todo: Todo) {
+    const modalRef = this.modalService.open(EditTodoComponent);
+    modalRef.componentInstance.todo = todo;
+    modalRef.result.then((result) => {
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 }
