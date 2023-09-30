@@ -1,6 +1,6 @@
 import { TodoStore } from './../todo.store';
 import { FormsModule } from '@angular/forms';
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Todo } from '../todo.store';
 import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -13,17 +13,18 @@ import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./edit-todo.component.css'],
   // providers: [TodoStore]
 })
-export class EditTodoComponent implements OnInit {
+export class EditTodoComponent {
+
+  public activeModal = inject(NgbActiveModal);
 
   @Input()
   todo!: Todo;
-  // todoStore = inject(TodoStore);
 
-  constructor(public activeModal: NgbActiveModal) { }
+  @Output()
+  onSave = new EventEmitter<Todo>();
 
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    console.log(this.todo);
+  submit(todo: Todo) {
+    this.onSave.emit(todo);
+    this.activeModal.close();
   }
 }

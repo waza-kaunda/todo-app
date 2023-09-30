@@ -20,7 +20,7 @@
 </div>
 
 <!-- List display template Ref -->
-<ng-template #todoList let-todos$="todos$">
+<ng-template #todoList let-todos="todos">
   <div class="list-group">
     <ng-container *ngFor="let todo of todos$ | async">
       <label class="list-group-item">
@@ -30,14 +30,14 @@
               <div class="col">
                 <input class="form-check-input me-1" title="done-checkbox" type="checkbox" [checked]="todo.done"
                 (change)="markAsDone(todo)">
-              <span>
+              <strong>
                 {{ todo.title }}
-              </span>
+              </strong>
               </div>
             </div>
             <div class="row">
               <div class="col offset-1">
-                <sub> {{ todo.description ?? "No Description" }} </sub>
+                <sub> {{ todo.description ?? "No description added." }} </sub>
               </div>
             </div>
             <div class="row">

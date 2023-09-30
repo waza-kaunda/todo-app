@@ -38,10 +38,9 @@ export class AppComponent {
   editTodo(todo: Todo) {
     const modalRef = this.modalService.open(EditTodoComponent);
     modalRef.componentInstance.todo = todo;
-    modalRef.result.then((result) => {
-      console.log(result);
-    }).catch((error) => {
-      console.log(error);
+    modalRef.componentInstance.onSave.subscribe((todo: Todo) => {
+      this.updateTodo.bind(this)(todo);
     });
+
   }
 }

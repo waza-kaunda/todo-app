@@ -9,9 +9,9 @@ export interface Todo {
 }
 
 const TodoState: Todo[] = [
-  { id: 1, title: 'Buy milk', done: false },
-  { id: 2, title: 'Walk the dog', done: false },
-  { id: 3, title: 'Do laundry', done: false }
+  { id: 1, title: 'Buy milk',  dueDate: new Date(), done: false },
+  { id: 2, title: 'Walk the dog', dueDate: new Date(), done: false },
+  { id: 3, title: 'Do laundry', dueDate: new Date(), done: false }
 ];
 
 export class TodoStore extends ComponentStore<Todo[]> {
