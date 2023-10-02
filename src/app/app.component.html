@@ -20,8 +20,8 @@
 </div>
 
 <!-- List display template Ref -->
-<ng-template #todoList let-todos="todos">
-  <div class="list-group">
+<ng-template #todoList let-todos$="todos$">
+  <div class="list-group"> 
     <ng-container *ngFor="let todo of todos$ | async">
       <label class="list-group-item">
         <div class="row">
